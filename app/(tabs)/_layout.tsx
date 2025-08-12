@@ -65,7 +65,8 @@ export default function TabLayout() {
                 name='profile'
                 options={{
                     title: 'Profile',
-                    tabBarIcon: ({ focused }) => <TabBarIcon title="Profile" icon={images.person} focused={focused} />
+                    tabBarIcon: ({ focused }) => <TabBarIcon title="Profile" icon={images.person} focused={focused} />,
+                    tabBarStyle: { display: 'none' }
                 }}
             />
         </Tabs>

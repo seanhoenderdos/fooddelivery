@@ -13,7 +13,7 @@ const CustomButton = ({ onPress, title='Click Me', style, textStyle, leftIcon, i
               size='small'
               color='white'
             />
-        ): <Text className={cn('text-white-100 paragraph-semibold', textStyle)}>
+        ): <Text className={cn(textStyle ? 'paragraph-semibold' : 'text-white-100 paragraph-semibold', textStyle)}>
             {title}
            </Text>}
       </View>

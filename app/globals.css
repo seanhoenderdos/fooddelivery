@@ -136,4 +136,8 @@
     .small-bold {
         @apply text-xs font-quicksand-bold;
     }
+
+    .caption-regular {
+        @apply text-xs font-quicksand;
+    }
 }

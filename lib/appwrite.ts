@@ -101,6 +101,96 @@ export const getMenu = async ({ category, query }: GetMenuParams) => {
     }
 }
 
+export const getMenuItem = async ({ itemId }: { itemId: string }) => {
+    try {
+        // Validate the itemId
+        if (!itemId || typeof itemId !== 'string' || itemId.length === 0) {
+            throw new Error('Invalid itemId: ID is required and must be a non-empty string');
+        }
+        
+        if (itemId.length > 36) {
+            throw new Error(`Invalid itemId: ID is too long (${itemId.length} chars, max 36)`);
+        }
+        
+        // Check for invalid characters
+        const validPattern = /^[a-zA-Z0-9_][a-zA-Z0-9_]*$/;
+        if (!validPattern.test(itemId)) {
+            throw new Error(`Invalid itemId: Contains invalid characters or starts with underscore`);
+        }
+
+        const item = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.menuCollectionId,
+            itemId
+        );
+        // If the item has a categories relationship, fetch the category name
+        if (item.categories) {
+            try {
+                const category = await databases.getDocument(
+                    appwriteConfig.databaseId,
+                    appwriteConfig.categoriesCollectionId,
+                    item.categories
+                );
+                (item as any).categoryName = category.name;
+            } catch {
+                // Continue without category name
+            }
+        }
+
+        return item;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
+export const getMenuCustomizations = async ({ itemId }: { itemId: string }) => {
+    try {
+        const customizations = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.menuCustomizationsCollectionId,
+            [Query.equal('menu', itemId)]
+        );
+
+        return customizations.documents;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
+export const getAllCustomizations = async () => {
+    try {
+        const customizations = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.customizationsCollectionId,
+        );
+
+        return customizations.documents;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
+export const getCustomizationsByIds = async (customizationIds: string[]) => {
+    try {
+        if (customizationIds.length === 0) return [];
+        
+        // For querying by $id, we need to use Query.contains or create multiple OR queries
+        // Since Query.contains might not work with $id, let's use individual document fetches
+        const customizationPromises = customizationIds.map(id => 
+            databases.getDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.customizationsCollectionId,
+                id
+            )
+        );
+
+        const customizations = await Promise.all(customizationPromises);
+        return customizations;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
 export const getCategories = async () => {
     try {
         const categories = await databases.listDocuments(

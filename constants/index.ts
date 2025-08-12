@@ -21,13 +21,17 @@ import arrowBack from "../assets/icons/arrow-back.png";
 
 import avatar from "@/assets/images/avatar.png";
 import avocado from "@/assets/images/avocado.png";
+import baconBurger from "@/assets/images/bacon-burger.png";
 import bacon from "@/assets/images/bacon.png";
+import beanBurrito from "@/assets/images/bean-burrito.png";
 import burgerOne from "@/assets/images/burger-one.png";
 import burgerTwo from "@/assets/images/burger-two.png";
 import buritto from "@/assets/images/buritto.png";
 import cheese from "@/assets/images/cheese.png";
+import chickenSandwich from "@/assets/images/chicken-sandwich.png";
 import coleslaw from "@/assets/images/coleslaw.png";
 import cucumber from "@/assets/images/cucumber.png";
+import doublePattyBurger from "@/assets/images/double-patty-burger.png";
 import emptyState from "@/assets/images/empty-state.png";
 import fries from "@/assets/images/fries.png";
 import loginGraphic from "@/assets/images/login-graphic.png";
@@ -36,10 +40,12 @@ import mozarellaSticks from "@/assets/images/mozarella-sticks.png";
 import mushrooms from "@/assets/images/mushrooms.png";
 import onionRings from "@/assets/images/onion-rings.png";
 import onions from "@/assets/images/onions.png";
+import paneerBurrito from "@/assets/images/paneer-burrito.png";
 import pizzaOne from "@/assets/images/pizza-one.png";
 import salad from "@/assets/images/salad.png";
 import success from "@/assets/images/success.png";
 import tomatoes from "@/assets/images/tomatoes.png";
+import veggieSandwich from "@/assets/images/veggie-sandwich.png";
 
 export const CATEGORIES = [
     {
@@ -161,12 +167,16 @@ export const images = {
     avatar,
     avocado,
     bacon,
+    baconBurger,
+    beanBurrito,
     burgerOne,
     burgerTwo,
     buritto,
     cheese,
+    chickenSandwich,
     coleslaw,
     cucumber,
+    doublePattyBurger,
     emptyState,
     fries,
     loginGraphic,
@@ -175,10 +185,12 @@ export const images = {
     mushrooms,
     onionRings,
     onions,
+    paneerBurrito,
     pizzaOne,
     salad,
     success,
     tomatoes,
+    veggieSandwich,
     arrowBack,
     arrowDown,
     arrowRight,

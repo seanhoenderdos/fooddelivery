@@ -1,12 +1,36 @@
 import { Category } from "@/type";
 import cn from "clsx";
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, Platform, Text, TouchableOpacity } from 'react-native';
 
 const Filter = ({ categories }: { categories: Category[] }) => {
     const searchParams = useLocalSearchParams();
     const [active, setActive] = useState(searchParams.category || '');
+
+    // Convert category name to category ID for matching with filter buttons
+    const getCategoryId = useCallback((categoryName: string) => {
+        if (!categories || !categoryName) return categoryName;
+        const foundCategory = categories.find((cat: any) => cat.name === categoryName);
+        return foundCategory ? foundCategory.$id : categoryName;
+    }, [categories]);
+
+    useEffect(() => {
+        const categoryParam = searchParams.category as string;
+        if (categoryParam) {
+            // If the category param looks like a name (contains letters), convert to ID
+            const isName = /[A-Za-z]/.test(categoryParam) && !categoryParam.includes('all');
+            if (isName) {
+                const categoryId = getCategoryId(categoryParam);
+                setActive(categoryId);
+            } else {
+                setActive(categoryParam);
+            }
+        } else {
+            // If no category parameter, it means "All" is selected
+            setActive('all');
+        }
+    }, [searchParams.category, categories, getCategoryId]);
 
     const handlePress = (id: string) => {
         setActive(id);

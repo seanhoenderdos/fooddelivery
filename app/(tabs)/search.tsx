@@ -18,9 +18,18 @@ const Search = () => {
     const { data, refetch, loading } = useAppwrite({ fn: getMenu, params: { category,  query,  limit: 6, } });
     const { data: categories } = useAppwrite({ fn: getCategories });
 
+    // Convert category name to category ID for filtering
+    const getCategoryId = (categoryName: string) => {
+        if (!categories || !categoryName) return categoryName;
+        const foundCategory = (categories as any[]).find((cat: any) => cat.name === categoryName);
+        return foundCategory ? foundCategory.$id : categoryName;
+    };
+
+    const categoryId = getCategoryId(category);
+
     useEffect(() => {
-        refetch({ category, query, limit: 6})
-    }, [category, query, refetch]);
+        refetch({ category: categoryId, query, limit: 6})
+    }, [categoryId, query, refetch]);
 
     return (
         <SafeAreaView className="bg-white h-full">

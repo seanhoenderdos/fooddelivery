@@ -124,9 +124,9 @@ const CustomizationCard = ({ customization, itemId, isSelected = false, onAdd }:
   };
 
   return (
-    <View className="w-36 bg-brown-100 rounded-2xl">
+    <View className="w-36 h-full bg-brown-100 rounded-2xl">
       {/* Card Container */}
-      <View className={` rounded-2xl relative ${isSelected ? 'border-2 border-primary' : ''}`}>
+      <View className={` rounded-2xl relative ${isSelected ? 'border-2 border-primary rounded-2xl' : ''}`}>
         {/* Food Image */}
         <View className="items-center mb-3 bg-white w-full rounded-2xl">
           <Image 
@@ -136,10 +136,10 @@ const CustomizationCard = ({ customization, itemId, isSelected = false, onAdd }:
           />
         </View>
 
-        <View className='flex flex-row justify-between items-center p-4 gap-2'>
+        <View className='flex flex-row justify-between items-center p-4 gap-2 h-fit'>
 
         {/* Name Label */}
-        <Text className="text-sm font-medium text-white text-center mb-2" numberOfLines={2}>
+        <Text className="text-sm font-medium text-white text-center mb-1">
           {customization.name}
         </Text>
         

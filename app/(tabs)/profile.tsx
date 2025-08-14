@@ -87,7 +87,6 @@ const Profile = () => {
             textStyle="text-primary font-bold text-base"
             onPress={() => {
               // This will be implemented later
-              console.log('Edit Profile pressed');
             }}
           />
 

@@ -1,4 +1,5 @@
 import { images } from '@/constants';
+import { useDesktopWebFrame } from '@/lib/useDesktopWebFrame';
 import { CartCustomization, Customization } from '@/type';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
@@ -109,6 +110,8 @@ const getCustomizationImage = (name: string) => {
 };
 
 const CustomizationCard = ({ customization, itemId, isSelected = false, onAdd }: CustomizationCardProps) => {
+  const isDesktopWebFrame = useDesktopWebFrame();
+
   const handleAddCustomization = () => {
     const cartCustomization: CartCustomization = {
       id: customization.$id,
@@ -124,35 +127,60 @@ const CustomizationCard = ({ customization, itemId, isSelected = false, onAdd }:
   };
 
   return (
-    <View className="w-36 h-full bg-brown-100 rounded-2xl">
+    <View
+      className="bg-brown-100 rounded-2xl overflow-hidden"
+      style={{ width: isDesktopWebFrame ? 132 : 144, height: isDesktopWebFrame ? 146 : undefined }}
+    >
       {/* Card Container */}
-      <View className={` rounded-2xl relative ${isSelected ? 'border-2 border-primary rounded-2xl' : ''}`}>
+      <View className="rounded-2xl relative flex-1">
         {/* Food Image */}
-        <View className="items-center mb-3 bg-white w-full rounded-2xl">
+        <View
+          className="items-center justify-center bg-white w-full rounded-2xl"
+          style={{
+            height: isDesktopWebFrame ? 82 : undefined,
+            borderWidth: isSelected ? 1 : 0,
+            borderColor: isSelected ? '#FE8C00' : 'transparent',
+          }}
+        >
           <Image 
             source={getCustomizationImage(customization.name)}
-            className="w-16 h-16"
+            className={isDesktopWebFrame ? undefined : "w-16 h-16"}
+            style={isDesktopWebFrame ? { width: 58, height: 58 } : undefined}
             resizeMode="contain"
           />
         </View>
 
-        <View className='flex flex-row justify-between items-center p-4 gap-2 h-fit'>
+        <View
+          className='items-center justify-center gap-2'
+          style={{
+            paddingHorizontal: isDesktopWebFrame ? 10 : 16,
+            paddingTop: isDesktopWebFrame ? 8 : 16,
+            paddingBottom: isDesktopWebFrame ? 14 : 16,
+          }}
+        >
 
         {/* Name Label */}
-        <Text className="text-sm font-medium text-white text-center mb-1">
+        <Text
+          className="font-medium text-white text-center"
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{ fontSize: isDesktopWebFrame ? 12 : 14, width: '100%' }}
+        >
           {customization.name}
         </Text>
         
         {/* Plus Button */}
         <TouchableOpacity 
           onPress={handleAddCustomization}
-          className={`w-6 h-6 rounded-full items-center justify-center ${
+          className={`rounded-full items-center justify-center ${
             isSelected ? 'bg-green-500' : 'bg-red-500'
           }`}
+          style={{ width: isDesktopWebFrame ? 22 : 24, height: isDesktopWebFrame ? 22 : 24 }}
         >
           <Image 
             source={isSelected ? images.check : images.plus}
-            className="w-4 h-4"
+            className={isDesktopWebFrame ? undefined : "w-4 h-4"}
+            style={isDesktopWebFrame ? { width: 12, height: 12 } : undefined}
             resizeMode="contain"
             tintColor="white"
           />

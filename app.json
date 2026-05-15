@@ -45,6 +45,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "43f91b1c-9b55-4b64-b87f-661e85d3b8e1"
+      }
+    },
+    "owner": "seanhoenderdos"
   }
 }

@@ -11,7 +11,6 @@ interface RatingProps {
 
 const Rating = ({ rating, showText = true, starSize = 'w-4 h-4', textStyle = 'text-white ml-2 font-quicksand' }: RatingProps) => {
   const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 !== 0;
 
   return (
     <View className="flex-row items-center">

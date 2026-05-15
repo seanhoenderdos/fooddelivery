@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html,
+    body,
+    #root {
+        height: 100%;
+    }
+
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #f4f0ea;
+    }
+}
+
 @layer utilities {
     .flex-center {
         @apply flex items-center justify-center;

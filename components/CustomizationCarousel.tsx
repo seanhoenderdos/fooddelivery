@@ -1,6 +1,7 @@
 import { CartCustomization, Customization } from '@/type';
 import { FlatList, Text, View } from 'react-native';
 import CustomizationCard from './CustomizationCard';
+import { useDesktopWebFrame } from '@/lib/useDesktopWebFrame';
 
 interface CustomizationCarouselProps {
   title: string;
@@ -17,6 +18,7 @@ const CustomizationCarousel = ({
   selectedCustomizations = [],
   onCustomizationAdd 
 }: CustomizationCarouselProps) => {
+  const isDesktopWebFrame = useDesktopWebFrame();
   
   if (!customizations || customizations.length === 0) {
     return null;
@@ -38,7 +40,10 @@ const CustomizationCarousel = ({
   return (
     <View className="mb-6">
       {/* Section Title */}
-      <Text className="text-xl font-bold text-dark-100 mb-4 px-6">
+      <Text
+        className="text-xl font-bold text-dark-100 mb-4"
+        style={{ paddingHorizontal: isDesktopWebFrame ? 0 : 24 }}
+      >
         {title}
       </Text>
       
@@ -49,7 +54,7 @@ const CustomizationCarousel = ({
         keyExtractor={(item) => item.$id}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 16 }}
+        contentContainerStyle={{ paddingHorizontal: isDesktopWebFrame ? 0 : 16 }}
         ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
       />
     </View>

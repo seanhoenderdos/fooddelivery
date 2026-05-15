@@ -6,12 +6,14 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Rating from '@/components/Rating';
 import { images } from '@/constants';
 import { useItemDetail } from '@/lib/useItemDetail';
+import { useDesktopWebFrame } from '@/lib/useDesktopWebFrame';
 import { useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ItemDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const isDesktopWebFrame = useDesktopWebFrame();
   
   const { 
     item, 
@@ -54,7 +56,7 @@ export default function ItemDetail() {
       
       <ScrollView className="flex-1 px-6" showsVerticalScrollIndicator={false}>
         {/* Main Content Row */}
-        <View className="flex-row mb-6">
+        <View className="flex-row mb-6" style={isDesktopWebFrame ? { minHeight: 190, overflow: 'hidden' } : undefined}>
           {/* Left Side - Item Details */}
           <View className="flex-1 justify-center">
             {/* Item Name */}
@@ -96,46 +98,77 @@ export default function ItemDetail() {
           </View>
           
           {/* Right Side - Item Image */}
-          <View className="w-80 h-80 -mr-28">
+          <View
+            className={isDesktopWebFrame ? undefined : "w-80 h-80 -mr-28"}
+            style={isDesktopWebFrame ? { width: 190, height: 190, marginRight: -58, overflow: 'hidden' } : undefined}
+          >
             <Image 
               source={{ uri: item.image_url }} 
               className="w-full h-full" 
-              resizeMode="cover"
+              resizeMode={isDesktopWebFrame ? "contain" : "cover"}
               style={{ borderRadius: 12 }}
             />
           </View>
         </View>
 
         {/* Info Bar */}
-        <View className="bg-primary/10 rounded-full px-4 py-3 mb-6 flex-row items-center justify-between">
-          <View className="flex-row items-center">
+        <View
+          className="bg-primary/10 rounded-full mb-6 flex-row items-center"
+          style={{
+            paddingHorizontal: isDesktopWebFrame ? 12 : 16,
+            paddingVertical: isDesktopWebFrame ? 10 : 12,
+            gap: isDesktopWebFrame ? 6 : undefined,
+          }}
+        >
+          <View className="flex-row items-center justify-center" style={{ flex: 1 }}>
             <Image 
               source={images.dollar} 
-              className="w-6 h-6 mr-2" 
+              className={isDesktopWebFrame ? undefined : "w-6 h-6 mr-2"}
+              style={isDesktopWebFrame ? { width: 12, height: 12, marginRight: 5 } : undefined}
               resizeMode="contain"
               tintColor="#FE8C00"
             />
-            <Text className="text-primary text-sm font-medium">Free Delivery</Text>
+            <Text
+              className="text-primary font-medium"
+              style={{ fontSize: isDesktopWebFrame ? 12 : 14 }}
+              numberOfLines={1}
+            >
+              Free Delivery
+            </Text>
           </View>
           
-          <View className="flex-row items-center">
+          <View className="flex-row items-center justify-center" style={{ flex: 1 }}>
             <Image 
               source={images.clock} 
-              className="w-4 h-4 mr-2" 
+              className={isDesktopWebFrame ? undefined : "w-4 h-4 mr-2"}
+              style={isDesktopWebFrame ? { width: 12, height: 12, marginRight: 5 } : undefined}
               resizeMode="contain"
               tintColor="#FE8C00"
             />
-            <Text className="text-primary text-sm font-medium">20 - 30 mins</Text>
+            <Text
+              className="text-primary font-medium"
+              style={{ fontSize: isDesktopWebFrame ? 12 : 14 }}
+              numberOfLines={1}
+            >
+              20 - 30 min
+            </Text>
           </View>
           
-          <View className="flex-row items-center">
+          <View className="flex-row items-center justify-center" style={{ flex: 0.58 }}>
             <Image 
               source={images.star} 
-              className="w-4 h-4 mr-2" 
+              className={isDesktopWebFrame ? undefined : "w-4 h-4 mr-2"}
+              style={isDesktopWebFrame ? { width: 12, height: 12, marginRight: 5 } : undefined}
               resizeMode="contain"
               tintColor="#FE8C00"
             />
-            <Text className="text-primary text-sm font-medium">{item.rating}</Text>
+            <Text
+              className="text-primary font-medium"
+              style={{ fontSize: isDesktopWebFrame ? 12 : 14 }}
+              numberOfLines={1}
+            >
+              {(item.rating || 0).toFixed(1)}
+            </Text>
           </View>
         </View>
 

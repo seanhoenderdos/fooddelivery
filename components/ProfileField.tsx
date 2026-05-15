@@ -1,14 +1,24 @@
 import { ProfileFieldProps } from '@/type';
+import { useDesktopWebFrame } from '@/lib/useDesktopWebFrame';
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 const ProfileField = ({ label, value, icon }: ProfileFieldProps) => {
+  const isDesktopWebFrame = useDesktopWebFrame();
+
   return (
     <View className="flex-row items-center py-4">
-      <View className="w-12 h-12 bg-primary/10 rounded-xl items-center justify-center mr-4">
+      <View
+        className="bg-primary/10 rounded-xl items-center justify-center mr-4"
+        style={{
+          width: isDesktopWebFrame ? 42 : 48,
+          height: isDesktopWebFrame ? 42 : 48,
+        }}
+      >
         <Image 
           source={icon} 
-          className="w-6 h-6" 
+          className={isDesktopWebFrame ? undefined : "w-6 h-6"}
+          style={isDesktopWebFrame ? { width: 19, height: 19 } : undefined}
           resizeMode="contain"
           tintColor="#FE8C00" 
         />

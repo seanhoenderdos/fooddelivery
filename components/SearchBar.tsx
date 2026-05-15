@@ -1,9 +1,11 @@
 import { images } from "@/constants";
+import { useDesktopWebFrame } from "@/lib/useDesktopWebFrame";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
 
 const Searchbar = () => {
+    const isDesktopWebFrame = useDesktopWebFrame();
     const params = useLocalSearchParams<{ query: string }>();
     const [query, setQuery] = useState(params.query);
 
@@ -34,7 +36,8 @@ const Searchbar = () => {
             >
                 <Image
                     source={images.search}
-                    className="size-6"
+                    className={isDesktopWebFrame ? undefined : "size-6"}
+                    style={isDesktopWebFrame ? { width: 22, height: 22 } : undefined}
                     resizeMode="contain"
                     tintColor="#5D5F6D"
                 />

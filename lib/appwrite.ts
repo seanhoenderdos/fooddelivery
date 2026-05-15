@@ -86,7 +86,6 @@ export const getMenu = async ({ category, query }: GetMenuParams) => {
         const queries: string[] = [];
 
         if(category) queries.push(Query.equal('categories', category));
-        if(query) queries.push(Query.search('name', query));
 
         const menus = await databases.listDocuments(
             appwriteConfig.databaseId,
@@ -94,7 +93,26 @@ export const getMenu = async ({ category, query }: GetMenuParams) => {
             queries,
         )
 
-        return menus.documents;
+        const normalizedQuery = query?.trim().toLowerCase();
+
+        if (!normalizedQuery) {
+            return menus.documents;
+        }
+
+        return menus.documents.filter((item: any) => {
+            const searchable = [
+                item.name,
+                item.type,
+                item.description,
+                item.categories?.name,
+                item.categoryName,
+            ]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase();
+
+            return searchable.includes(normalizedQuery);
+        });
     } catch (e) {
         throw new Error(e as string);
     }

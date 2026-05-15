@@ -68,6 +68,7 @@ interface CustomButtonProps {
     onPress?: () => void;
     title?: string;
     style?: string;
+    buttonStyle?: import("react-native").StyleProp<import("react-native").ViewStyle>;
     leftIcon?: React.ReactNode;
     textStyle?: string;
     isLoading?: boolean;

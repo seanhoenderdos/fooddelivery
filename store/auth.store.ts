@@ -33,7 +33,11 @@ const useAuthStore = create<AuthState>((set) => ({
             if(user) set({ isAuthenticated: true, user: user as unknown as User })
             else set( { isAuthenticated: false, user: null } );
         } catch (e) {
-            console.log('fetchAuthenticatedUser error', e);
+            const message = e instanceof Error ? e.message : String(e);
+
+            if (!message.includes('missing scope') && !message.includes('401')) {
+                console.log('fetchAuthenticatedUser error', e);
+            }
             set({ isAuthenticated: false, user: null })
         } finally {
             set({ isLoading: false });

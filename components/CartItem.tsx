@@ -1,36 +1,57 @@
 import { images } from "@/constants";
+import { useDesktopWebFrame } from "@/lib/useDesktopWebFrame";
 import { useCartStore } from "@/store/cart.store";
-import { CartItemType } from "@/type";
+import type { CartItem as CartItemData } from "@/type";
+import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
-const CartItem = ({ item }: { item: CartItemType }) => {
+const CartItem = ({ item }: { item: CartItemData }) => {
     const { increaseQty, decreaseQty, removeItem } = useCartStore();
+    const isDesktopWebFrame = useDesktopWebFrame();
+    const customizationsTotal = item.customizations?.reduce((sum, c) => sum + c.price, 0) ?? 0;
+    const itemTotal = item.price + customizationsTotal;
+    const openItem = () => router.push({ pathname: '/item/[id]', params: { id: item.id } });
 
     return (
-        <View className="cart-item">
-            <View className="flex flex-row items-center gap-x-3">
+        <TouchableOpacity
+            className="cart-item"
+            activeOpacity={0.85}
+            onPress={openItem}
+            style={isDesktopWebFrame ? { paddingRight: 14, gap: 8 } : undefined}
+        >
+            <View className="flex flex-row items-center gap-x-3 flex-1 min-w-0">
                 <View className="cart-item__image">
                     <Image
                         source={{ uri: item.image_url }}
-                        className="size-4/5 rounded-lg"
+                        className={isDesktopWebFrame ? "rounded-lg" : "size-4/5 rounded-lg"}
+                        style={isDesktopWebFrame ? { width: 58, height: 58 } : undefined}
                         resizeMode="cover"
                     />
                 </View>
 
-                <View>
-                    <Text className="base-bold text-dark-100">{item.name}</Text>
+                <View className="flex-1 min-w-0">
+                    <Text
+                        className="base-bold text-dark-100"
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={isDesktopWebFrame ? { maxWidth: 150 } : undefined}
+                    >
+                        {item.name}
+                    </Text>
                     <Text className="paragraph-bold text-primary mt-1">
-                        R{item.price}
+                        R{itemTotal.toFixed(2)}
                     </Text>
 
                     <View className="flex flex-row items-center gap-x-4 mt-2">
                         <TouchableOpacity
                             onPress={() => decreaseQty(item.id, item.customizations!)}
                             className="cart-item__actions"
+                            style={isDesktopWebFrame ? { width: 22, height: 22 } : undefined}
                         >
                             <Image
                                 source={images.minus}
-                                className="size-1/2"
+                                className={isDesktopWebFrame ? undefined : "size-1/2"}
+                                style={isDesktopWebFrame ? { width: 11, height: 11 } : undefined}
                                 resizeMode="contain"
                                 tintColor={"#FF9C01"}
                             />
@@ -41,10 +62,12 @@ const CartItem = ({ item }: { item: CartItemType }) => {
                         <TouchableOpacity
                             onPress={() => increaseQty(item.id, item.customizations!)}
                             className="cart-item__actions"
+                            style={isDesktopWebFrame ? { width: 22, height: 22 } : undefined}
                         >
                             <Image
                                 source={images.plus}
-                                className="size-1/2"
+                                className={isDesktopWebFrame ? undefined : "size-1/2"}
+                                style={isDesktopWebFrame ? { width: 11, height: 11 } : undefined}
                                 resizeMode="contain"
                                 tintColor={"#FF9C01"}
                             />
@@ -56,10 +79,16 @@ const CartItem = ({ item }: { item: CartItemType }) => {
             <TouchableOpacity
                 onPress={() => removeItem(item.id, item.customizations!)}
                 className="flex-center"
+                style={isDesktopWebFrame ? { width: 30, height: 44, marginLeft: 4, flexShrink: 0 } : undefined}
             >
-                <Image source={images.trash} className="size-5" resizeMode="contain" />
+                <Image
+                    source={images.trash}
+                    className={isDesktopWebFrame ? undefined : "size-5"}
+                    style={isDesktopWebFrame ? { width: 22, height: 22 } : undefined}
+                    resizeMode="contain"
+                />
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     );
 };
 

@@ -1,5 +1,6 @@
 import CartButton from "@/components/CartButton";
 import { images, offers } from "@/constants";
+import { useDesktopWebFrame } from "@/lib/useDesktopWebFrame";
 import cn from 'clsx';
 import { router } from "expo-router";
 import { FlatList, Image, Pressable, Text, TouchableOpacity, View } from "react-native";
@@ -7,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import "../globals.css";
 
 export default function Index() {
+  const isDesktopWebFrame = useDesktopWebFrame();
 
   const getCategoryFromOffer = (title: string) => {
     const titleLower = title.toLowerCase();
@@ -26,9 +28,31 @@ export default function Index() {
     }
   };
 
+  const Header = () => (
+    <View
+      className="flex-between flex-row w-full px-5 mb-4"
+      style={{ marginTop: isDesktopWebFrame ? 54 : 20 }}
+    >
+      <View className="flex-start">
+        <Text className="small-bold text-primary">DELIVER TO</Text>
+        <TouchableOpacity className="flex-center flex-row gap-x-1 mt-0.5">
+          <Text className="paragraph-bold text-dark-100">13 Limpopo Ave</Text>
+          <Image
+            source={images.arrowDown}
+            className={isDesktopWebFrame ? undefined : "size-3"}
+            style={isDesktopWebFrame ? { width: 12, height: 12 } : undefined}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
+
+      <CartButton />
+    </View>
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      
+      <Header />
 
       <FlatList 
       data={offers} 
@@ -67,23 +91,6 @@ export default function Index() {
         )
       }}
       contentContainerClassName="pb-28 px-5" 
-      ListHeaderComponent={() => (
-        <View className="flex-between flex-row w-full my-5">
-        <View className="flex-start">
-          <Text className="small-bold text-primary">DELIVER TO</Text>
-          <TouchableOpacity className="flex-center flex-row gap-x-1 mt-0.5">
-            <Text className="paragraph-bold text-dark-100">13 Limpopo Ave</Text>
-          <Image 
-           source={images.arrowDown}
-           className="size-3"
-           resizeMode="contain"
-          />
-          </TouchableOpacity>
-        </View>
-
-        <CartButton />
-      </View>
-      )}
       />
     </SafeAreaView>
   );

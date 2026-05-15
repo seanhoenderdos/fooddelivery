@@ -3,12 +3,15 @@ import CustomInput from '@/components/CustomInput'
 import { signIn } from '@/lib/appwrite'
 import useAuthStore from '@/store/auth.store'
 import * as Sentry from '@sentry/react-native'
+import cn from 'clsx'
 import { Link, router } from 'expo-router'
 import React, { useState } from 'react'
-import { Alert, Text, View } from 'react-native'
+import { Alert, Platform, Text, useWindowDimensions, View } from 'react-native'
 
 const SignIn = () => {
   const { fetchAuthenticatedUser } = useAuthStore();
+  const { width } = useWindowDimensions();
+  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({ email: '', password: '' });
 
@@ -30,7 +33,10 @@ const SignIn = () => {
 
 
   return (
-    <View className='gap-10 bg-white rounded-lg p-5 mt-5'>
+    <View
+      className={cn('bg-white rounded-lg p-5', isDesktopWeb ? 'gap-7 mt-0' : 'gap-10 mt-5')}
+      style={isDesktopWeb ? { flexGrow: 1 } : undefined}
+    >
       <CustomInput 
         placeholder='Enter your email'
         value={form.email}
@@ -51,7 +57,7 @@ const SignIn = () => {
         onPress={submit}
       />
 
-      <View className='flex justify-center mt-5 flex-row gap-2'>
+      <View className={cn('flex justify-center flex-row gap-2', isDesktopWeb ? 'mt-1' : 'mt-5')}>
         <Text className='base-regular text-gray-100'>
           Don&apos;t have an account?
         </Text>

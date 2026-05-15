@@ -24,6 +24,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
                 i.id === item.id &&
                 areCustomizationsEqual(i.customizations ?? [], customizations)
         );
+        const existingSameItem = get().items.find((i) => i.id === item.id);
 
         if (existing) {
             set({
@@ -31,6 +32,14 @@ export const useCartStore = create<CartStore>((set, get) => ({
                     i.id === item.id &&
                     areCustomizationsEqual(i.customizations ?? [], customizations)
                         ? { ...i, quantity: i.quantity + 1 }
+                        : i
+                ),
+            });
+        } else if (existingSameItem) {
+            set({
+                items: get().items.map((i) =>
+                    i.id === item.id
+                        ? { ...item, quantity: i.quantity, customizations }
                         : i
                 ),
             });

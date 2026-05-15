@@ -50,7 +50,7 @@ export const useItemDetail = (id: string) => {
       addItem({ 
         id: item.$id, 
         name: item.name, 
-        price: getTotalPrice(), 
+        price: item.price,
         image_url: item.image_url,
         customizations: selectedCustomizations 
       });

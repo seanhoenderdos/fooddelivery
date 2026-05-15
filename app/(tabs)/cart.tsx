@@ -25,13 +25,13 @@ const Cart = () => {
     const totalPrice = getTotalPrice();
 
     return (
-        <SafeAreaView className="bg-white h-full">
+        <SafeAreaView className="bg-white flex-1">
+            <CustomHeader title="Your Cart" />
             <FlatList
                 data={items}
                 renderItem={({ item }) => <CartItem item={item} />}
-                keyExtractor={(item) => item.id}
-                contentContainerClassName="pb-28 px-5 pt-5"
-                ListHeaderComponent={() => <CustomHeader title="Your Cart" />}
+                keyExtractor={(item) => `${item.id}-${item.customizations?.map((c) => c.id).join('-') ?? 'base'}`}
+                contentContainerClassName="pb-28 px-5"
                 ListEmptyComponent={() => <Text>Cart Empty</Text>}
                 ListFooterComponent={() => totalItems > 0 && (
                     <View className="gap-5">

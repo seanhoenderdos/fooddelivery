@@ -1,6 +1,7 @@
 import CustomButton from '@/components/CustomButton';
 import CustomHeader from '@/components/CustomHeader';
 import ProfileField from '@/components/ProfileField';
+import { useDesktopWebFrame } from '@/lib/useDesktopWebFrame';
 import useAuthStore from '@/store/auth.store';
 import { router } from 'expo-router';
 import React from 'react';
@@ -9,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Profile = () => {
   const { user, logout } = useAuthStore();
+  const isDesktopWebFrame = useDesktopWebFrame();
 
   const handleLogout = async () => {
     await logout();
@@ -26,7 +28,10 @@ const Profile = () => {
     <SafeAreaView className="flex-1 bg-white/50">
       <CustomHeader title="Profile" />
       
-      <ScrollView className="flex-1 px-6">
+      <ScrollView
+        className="flex-1 px-6"
+        contentContainerStyle={{ paddingBottom: isDesktopWebFrame ? 32 : 24 }}
+      >
         {/* Profile Picture Section */}
         <View className="items-center mt-8 mb-8">
           <View className="relative">
@@ -38,7 +43,8 @@ const Profile = () => {
             <View className="absolute -bottom-1 -right-1 bg-primary p-2 rounded-full">
               <Image
                 source={require('@/assets/icons/pencil.png')}
-                className="w-4 h-4"
+                className={isDesktopWebFrame ? undefined : "w-4 h-4"}
+                style={isDesktopWebFrame ? { width: 13, height: 13 } : undefined}
                 tintColor="white"
                 resizeMode="contain"
               />
@@ -83,8 +89,9 @@ const Profile = () => {
         <View className="mt-6">
           <CustomButton
             title="Edit Profile"
-            style="bg-orange-50 border border-primary py-4 rounded-full mb-3"
+            style="bg-orange-50 border border-primary rounded-full mb-3"
             textStyle="text-primary font-bold text-base"
+            buttonStyle={{ paddingVertical: isDesktopWebFrame ? 12 : 16 }}
             onPress={() => {
               // This will be implemented later
             }}
@@ -92,12 +99,14 @@ const Profile = () => {
 
           <CustomButton
             title="Logout"
-            style="bg-red-50 border border-red-500 py-4 rounded-full"
+            style="bg-red-50 border border-red-500 rounded-full"
             textStyle="text-red-500 font-bold text-base"
+            buttonStyle={{ paddingVertical: isDesktopWebFrame ? 12 : 16 }}
             leftIcon={
               <Image
                 source={require('@/assets/icons/logout.png')}
-                className="w-5 h-5 mr-2"
+                className={isDesktopWebFrame ? undefined : "w-5 h-5 mr-2"}
+                style={isDesktopWebFrame ? { width: 18, height: 18, marginRight: 8 } : undefined}
                 tintColor="#ef4444"
                 resizeMode="contain"
               />

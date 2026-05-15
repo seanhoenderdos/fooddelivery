@@ -1,50 +1,107 @@
-# Welcome to your Expo app 👋
+# Food Delivery App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile-first food delivery app built with Expo and React Native. This project was created as a practical upskilling project to stay current with React Native, Expo Router, mobile UI patterns, Appwrite integration, and cross-platform deployment.
 
-## Get started
+Live preview: [seanhoenderdos-fooddelivery.expo.app](https://seanhoenderdos-fooddelivery.expo.app)
 
-1. Install dependencies
+The web preview is presented inside a phone-style frame because the app was designed primarily for mobile screens.
 
-   ```bash
-   npm install
-   ```
+## Overview
 
-2. Start the app
+Food Delivery App lets users browse meals, search by category or keyword, view detailed product pages, customize orders with toppings and sides, and manage items in a cart. It is built to feel like a real mobile ordering flow, with authentication, menu data, product details, profile screens, and cart state.
 
-   ```bash
-   npx expo start
-   ```
+## Features
 
-In the output, you'll find options to open the app in a
+- Email and password authentication with Appwrite
+- Mobile-first Expo Router navigation
+- Home screen with promotional food banners
+- Search and category filtering that work together
+- Product detail pages with ratings, delivery info, toppings, and side options
+- Cart state with quantity controls and order totals
+- Profile screen with customer details and logout flow
+- Desktop web preview wrapped in a modern phone frame for portfolio use
+- Expo web export and EAS Hosting deployment
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Expo SDK 53
+- React Native 0.79
+- React 19
+- Expo Router
+- TypeScript
+- NativeWind and Tailwind CSS
+- Zustand
+- Appwrite
+- EAS Hosting
 
-## Get a fresh project
+## Getting Started
 
-When you're ready, run:
+### Prerequisites
+
+- Node.js
+- npm
+- Expo CLI through `npx expo`
+- An Appwrite project with the required database collections configured
+
+### Installation
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Create a `.env` file in the project root:
 
-## Learn more
+```bash
+EXPO_PUBLIC_APPWRITE_ENDPOINT=your_appwrite_endpoint
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=your_appwrite_project_id
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Start the development server:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm start
+```
 
-## Join the community
+Run on a specific platform:
 
-Join our community of developers creating universal apps.
+```bash
+npm run ios
+npm run android
+npm run web
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Build
+
+Create a static web export:
+
+```bash
+npm run build
+```
+
+## Quality Checks
+
+Run linting:
+
+```bash
+npm run lint
+```
+
+Run TypeScript checks:
+
+```bash
+npx tsc --noEmit
+```
+
+## Project Notes
+
+This project was intentionally used as a learning and sharpening exercise rather than just a static UI clone. The main focus areas were:
+
+- Building a polished React Native interface with reusable components
+- Working with Expo Router and typed routes
+- Integrating Appwrite for authentication and menu data
+- Managing cart behavior with Zustand
+- Making the app presentable as a portfolio project through Expo web deployment
+
+## Author
+
+Built by [Sean Hoenderdos](https://github.com/seanhoenderdos).
